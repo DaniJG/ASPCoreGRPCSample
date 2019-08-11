@@ -1,0 +1,11 @@
+version: '2.2'
+
+services:
+  orders:    
+    build:
+      context: .
+      dockerfile: Orders/Dockerfile
+  client:    
+    build:
+      context: .
+      dockerfile: Client/Dockerfile

@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders", "Orders\Orders.csproj", "{57414205-86B3-4849-B25F-7859DCE4969C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{3A9110BC-C3EB-4CB7-A8E1-22D5111E190C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{7A1E6ECB-4DB8-45B5-87F0-398C74FE869B}"
+	ProjectSection(SolutionItems) = preProject
+		Protos\orders.proto = Protos\orders.proto
+	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57414205-86B3-4849-B25F-7859DCE4969C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57414205-86B3-4849-B25F-7859DCE4969C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57414205-86B3-4849-B25F-7859DCE4969C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57414205-86B3-4849-B25F-7859DCE4969C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A9110BC-C3EB-4CB7-A8E1-22D5111E190C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A9110BC-C3EB-4CB7-A8E1-22D5111E190C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9110BC-C3EB-4CB7-A8E1-22D5111E190C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A9110BC-C3EB-4CB7-A8E1-22D5111E190C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFDB9AB2-AD4E-4E65-BE5F-85196D85907D}
+	EndGlobalSection
+EndGlobal
