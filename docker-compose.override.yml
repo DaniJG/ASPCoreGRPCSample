@@ -1,4 +1,3 @@
-# version: '3.4'
 version: '2.2'
 
 services:
@@ -17,8 +16,23 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-
+  shippings:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=5003
+      # Export HTTPS dev certificate as pfx with your own password (directory should match volume below)
+      #    dotnet dev-certs https -ep ${APPDATA}/ASP.NET/Https/aspnetapp.pfx -p mypassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=mypassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/aspnetapp.pfx
+    ports:
+      - "5002:80"
+      - "5003:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   client:
     # Ctrl+p,q to exit terminal!
     environment:
-      - GREETER_URL=https://orders:443
+      - ORDERS_URL=https://orders:443
+      - SHIPPINGS_URL=https://shippings:443

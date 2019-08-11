@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "Orders";
 
-package ASPCoreGRPCSample;
+package Orders;
 
 // The greeting service definition.
 service OrderPlacement {

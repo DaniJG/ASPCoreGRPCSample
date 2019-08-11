@@ -10,9 +10,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{7A1E6ECB-4DB8-45B5-87F0-398C74FE869B}"
 	ProjectSection(SolutionItems) = preProject
 		Protos\orders.proto = Protos\orders.proto
+		Protos\shippings.proto = Protos\shippings.proto
 	EndProjectSection
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shippings", "Shippings\Shippings.csproj", "{C0FA17B1-A5EC-4CF5-A832-BFF66D815DCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +35,10 @@ Global
 		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECC9BA07-5B24-4476-B751-8CE21FFECDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0FA17B1-A5EC-4CF5-A832-BFF66D815DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0FA17B1-A5EC-4CF5-A832-BFF66D815DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0FA17B1-A5EC-4CF5-A832-BFF66D815DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0FA17B1-A5EC-4CF5-A832-BFF66D815DCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
