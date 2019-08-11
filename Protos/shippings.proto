@@ -4,18 +4,16 @@ option csharp_namespace = "Shippings";
 
 package Shippings;
 
-// The greeting service definition.
-service ProductShipment {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+service ProductShipment {  
+  rpc SendOrder (SendOrderRequest) returns (SendOrderReply) {}
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message SendOrderRequest {
+  string productId = 1;
+  int32 quantity = 2;
+  string address = 3;
 }
 
-// The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message SendOrderReply {
+  
 }

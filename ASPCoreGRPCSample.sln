@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{7A1E6ECB-4DB8-45B5-87F0-398C74FE869B}"
 	ProjectSection(SolutionItems) = preProject
 		Protos\orders.proto = Protos\orders.proto
+		Protos\products.proto = Protos\products.proto
 		Protos\shippings.proto = Protos\shippings.proto
 	EndProjectSection
 EndProject

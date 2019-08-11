@@ -9,6 +9,10 @@ services:
     build:
       context: .
       dockerfile: Shippings/Dockerfile
+  products:    
+    build:
+      context: .
+      dockerfile: Products/Dockerfile
   client:    
     build:
       context: .

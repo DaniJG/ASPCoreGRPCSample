@@ -15,12 +15,10 @@ namespace Shippings
             _logger = logger;
         }
 
-        public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        public override Task<SendOrderReply> SendOrder(SendOrderRequest request, ServerCallContext context)
         {
-            return Task.FromResult(new HelloReply
-            {
-                Message = "Hello " + request.Name
-            });
+            this._logger.LogInformation($"Received order with productId={request.ProductId}, quantity={request.Quantity}, address={request.Address}");
+            return Task.FromResult(new SendOrderReply());
         }
     }
 }

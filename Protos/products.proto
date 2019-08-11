@@ -1,0 +1,19 @@
+syntax = "proto3";
+ 
+option csharp_namespace = "Products";
+
+package products;
+
+service ProductsInventory { 
+    rpc Details(ProductDetailsRequest) returns (ProductDetailsResponse){}
+}
+ 
+message ProductDetailsRequest { 
+    string productId = 1;    
+}
+
+message ProductDetailsResponse { 
+    string productId = 1;
+    string name = 2;
+    string category = 3;
+}
