@@ -19,19 +19,32 @@ namespace Orders
             _shippings = shippings;
         }
 
-        public override async Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+        public override async Task<CreateOrderReply> CreateOrder(CreateOrderRequest request, ServerCallContext context)
         {
+            var orderId = Guid.NewGuid().ToString();
             await this._shippings.SendOrderAsync(new SendOrderRequest
             {
-                ProductId = "ABC1234",
-                Quantity = 1,
-                Address = "Mock Address"
+                ProductId = request.ProductId,
+                Quantity = request.Quantity,
+                Address = request.Address
             });
-
-            return new HelloReply
-            {
-                Message = "Hello " + request.Name
+            this._logger.LogInformation($"Created order {orderId} with productId={request.ProductId}, quantity={request.Quantity}, address={request.Address}");
+            return new CreateOrderReply {
+                OrderId = orderId
             };
+        }
+
+        public override async Task GetOrderStatus(GetOrderStatusRequest request, IServerStreamWriter<GetOrderStatusResponse> responseStream, ServerCallContext context)
+        {
+            await responseStream.WriteAsync(new GetOrderStatusResponse { Status = "Created" });
+
+            await Task.Delay(500);
+
+            await responseStream.WriteAsync(new GetOrderStatusResponse { Status = "Validated" });
+
+            await Task.Delay(1000);
+
+            await responseStream.WriteAsync(new GetOrderStatusResponse { Status = "Dispatched" });
         }
     }
 }

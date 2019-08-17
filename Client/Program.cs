@@ -1,11 +1,12 @@
 ﻿using System;
-using Grpc.Net.Client;
-using System.Net.Http;
+using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Orders;
 using Products;
-using System.IO;
-using Grpc.Core;
 
 namespace Client
 {
@@ -70,12 +71,12 @@ namespace Client
             var ordersClient = GetOrdersClient();
             var productsClient = GetProductsClient();
 
-            Console.WriteLine("Welcome to the Orders Client!");
+            Console.WriteLine("Welcome to the gRPC client");
             while (true)
             {                
-                Console.WriteLine("Enter option:");
-                Console.WriteLine("\t- '1' - order service");
-                Console.WriteLine("\t- '2' - products service");
+                Console.WriteLine("\nPress key for option:");
+                Console.WriteLine("'1' - .NET Orders + Shippings services with server streaming");
+                Console.WriteLine("'2' - Node.js Products service");
                 Console.WriteLine("(q or Ctrl+C to exit)");
                 var key = Console.ReadKey();
                 Console.WriteLine("");
@@ -84,8 +85,21 @@ namespace Client
                 {
                     if (key.KeyChar == '1')
                     {
-                        var reply = await ordersClient.SayHelloAsync(new Orders.HelloRequest { Name = "GreeterClient" });
-                        Console.WriteLine("Greeting: " + reply.Message);
+                        var reply = await ordersClient.CreateOrderAsync(new CreateOrderRequest
+                        {
+                            ProductId = "ABC1234",
+                            Quantity = 1,
+                            Address = "Mock Address"
+                        });
+                        Console.WriteLine($"Created order: {reply.OrderId}");
+                        using (var statusReplies = ordersClient.GetOrderStatus(new GetOrderStatusRequest { OrderId = reply.OrderId }))
+                        {
+                            while (await statusReplies.ResponseStream.MoveNext())
+                            {
+                                var statusReply = statusReplies.ResponseStream.Current.Status;
+                                Console.WriteLine($"Order status: {statusReply}");
+                            }
+                        }
                     }
                     if (key.KeyChar == '2')
                     {

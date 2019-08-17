@@ -3,6 +3,16 @@ const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 const SERVER_ADDRESS = process.env['SERVER_ADDRESS'] || '0.0.0.0:5004';
  
+// Receive GRPC request
+const serviceImplementation = { 
+  Details(call, callback) {  
+    const { productId } = call.request;  
+    console.log('Sending details for:', productId);
+    callback(null, {productId, name: 'mockName', category: 'mockCategory'});
+  }
+};
+
+
 // Load protobuf
 const proto = grpc.loadPackageDefinition(
   protoLoader.loadSync('../Protos/products.proto', {
@@ -14,16 +24,9 @@ const proto = grpc.loadPackageDefinition(
   })
 );
  
-// Receive GRPC request
-function getdetails(call, callback) {  
-  const { productId } = call.request;  
-  console.log('Sending details for:', productId);
-  callback(null, {productId, name: 'mockName', category: 'mockCategory'});
-}
- 
 // Define server with the methods and start it
 const server = new grpc.Server();
-server.addService(proto.products.ProductsInventory.service, { Details: getdetails });
+server.addService(proto.products.ProductsInventory.service, serviceImplementation);
  
 const credentials = grpc.ServerCredentials.createSsl(
   fs.readFileSync('./certs/ca.crt'), 

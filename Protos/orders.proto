@@ -4,18 +4,25 @@ option csharp_namespace = "Orders";
 
 package Orders;
 
-// The greeting service definition.
 service OrderPlacement {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc CreateOrder (CreateOrderRequest) returns (CreateOrderReply) {}
+  rpc GetOrderStatus (GetOrderStatusRequest) returns (stream GetOrderStatusResponse) {}
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message CreateOrderRequest {
+  string productId = 1;
+  int32 quantity = 2;
+  string address = 3;
 }
 
-// The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message CreateOrderReply {
+  string orderId = 1;
+}
+
+message GetOrderStatusRequest {
+  string orderId = 1;
+}
+
+message GetOrderStatusResponse {
+  string status = 1;
 }
