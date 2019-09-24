@@ -7,6 +7,7 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using Orders;
 using Products;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Client
 {
@@ -27,18 +28,16 @@ namespace Client
                 // This will disable the validation of the HTTPS certificates
                 handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
             }
-            var httpClient = new HttpClient(handler);
-            httpClient.BaseAddress = new Uri(serverUrl);
+            var httpClient = new HttpClient(handler);            
 
-            return GrpcClient.Create<OrderPlacement.OrderPlacementClient>(httpClient);
+            var channel = GrpcChannel.ForAddress(serverUrl, new GrpcChannelOptions { HttpClient = httpClient });
+            return new OrderPlacement.OrderPlacementClient(channel);            
         }
 
         private static ProductsInventory.ProductsInventoryClient GetProductsClient()
         {
-            // Cant use the Grpc.Net.Client.GrpcClient when the service expects client certificates to be provided!
-            // This is because as of version 0.1.22-pre2, it doesnt allow specifying the SslCredentials
-            // Instead you need to use the Grpc.Core channel and provide the credentials
-            //  - It seems to have been rewritten after 0.1.22-pre2, allowing SslCredentials as one of its options: https://github.com/grpc/grpc-dotnet/tree/master/src/Grpc.Net.Client            
+            // Left for reference the implementation needed when using the old Grpc.Core classes directly
+            // to instantiate the channel and provide call credentials
             //var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
             //var credentials = new SslCredentials(
             //    File.ReadAllText(Path.Combine(basePath, "ProductCerts", "ca.crt")),
@@ -54,16 +53,19 @@ namespace Client
             //    new Channel(serverName, credentials, new[] {
             //        new ChannelOption(ChannelOptions.SslTargetNameOverride, "localhost") // gRPC server expects host to match cert host . This is only for testing!
             //    });
-            //return new ProductsInventory.ProductsInventoryClient(new DefaultCallInvoker(channel));
+            //return new ProductsInventory.ProductsInventoryClient(channel);
 
-            // We can use the new HttpClient-based client from Grpc.Net.Client.GrpcClient 
+            // We can build the channel using the new HttpClient-based client from Grpc.Net.Client.GrpcClient 
             // as long as the server does not expect client certificates to be provided
             var serverUrl = System.Environment.GetEnvironmentVariable("PRODUCTS_URL") ?? "https://localhost:5004";
+            var basePath = Path.GetDirectoryName(typeof(Program).Assembly.Location);
             var handler = new HttpClientHandler();
             handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true; // solves both untrusted server CA and different server hostname when running client inside docker
+            handler.ClientCertificates.Add(new X509Certificate2(Path.Combine(basePath, "ProductCerts", "client.pfx"), "1234"));
             var httpClient = new HttpClient(handler);
-            httpClient.BaseAddress = new Uri(serverUrl);
-            return GrpcClient.Create<ProductsInventory.ProductsInventoryClient>(httpClient);
+
+            var channel = GrpcChannel.ForAddress(serverUrl, new GrpcChannelOptions { HttpClient = httpClient });
+            return new ProductsInventory.ProductsInventoryClient(channel);
         }
 
         static async Task Main(string[] args)
