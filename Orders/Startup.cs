@@ -24,7 +24,7 @@ namespace Orders
             services
                 .AddGrpcClient<ProductShipment.ProductShipmentClient>(opts =>
                 {
-                    opts.BaseAddress = new Uri(shippings_url);
+                    opts.Address = new Uri(shippings_url);
                 }).ConfigurePrimaryHttpMessageHandler(() => {
                     var handler = new HttpClientHandler();
                     if (!shippings_url.Contains("localhost"))

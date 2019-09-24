@@ -24,3 +24,5 @@ openssl req -passin pass:1234 -new -key client.key -out client.csr -subj  "/C=CL
 openssl x509 -passin pass:1234 -req -days 365 -in client.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out client.crt
 
 openssl rsa -passin pass:1234 -in client.key -out client.key
+
+openssl pkcs12 -export -password pass:1234 -out client.pfx -inkey client.key -in client.crt
